@@ -39,7 +39,7 @@ gulp.task("js", () => {
 
 gulp.task("imagemin", () => {
   gulp
-    .src("src/src-img/*")
+    .src("src/images/*")
     .pipe(imagemin())
     .pipe(gulp.dest("assets/images"));
 });

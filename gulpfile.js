@@ -5,6 +5,8 @@ const gulp = require("gulp"),
   uglify = require("gulp-uglify"),
 rename = require('gulp-rename'),
 Minimize = require('gulp-minimize'),
+hash = require('gulp-hash'),
+cache = require('gulp-cache'),
   autoprefixer = require("gulp-autoprefixer"),
   browserSync = require("browser-Sync").create();
 
@@ -20,7 +22,9 @@ gulp.task("sass", function() {
         outputStyle: "compressed"
       })
     )
+
     .pipe(autoprefixer())
+
     .pipe(gulp.dest("assets/css"))
     .pipe(browserSync.stream());
 });
@@ -35,6 +39,7 @@ gulp.task("js", () => {
     ])
     .pipe(concat("main.js"))
     .pipe(uglify())
+
     .pipe(gulp.dest("assets/js"))
     .pipe(browserSync.stream());
 });
@@ -49,9 +54,16 @@ gulp.task('html', function() {
 gulp.task("imagemin", () => {
   gulp
     .src("src/images/*")
+
     .pipe(imagemin())
     .pipe(gulp.dest("assets/images"));
 });
+
+
+gulp.task('fonts', function() {
+  return gulp.src('src/fonts/**/*')
+  .pipe(gulp.dest('assets/fonts'))
+})
 
 gulp.task("serve", () => {
   browserSync.init({
@@ -63,4 +75,4 @@ gulp.task("serve", () => {
   gulp.watch("*.html").on("change", browserSync.reload);
 });
 
-gulp.task("default", ["sass", "js", "imagemin", "serve","html"]);
+gulp.task("default", ["sass", "js", "imagemin", "serve","html","fonts"]);
